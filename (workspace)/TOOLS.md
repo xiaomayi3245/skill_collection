@@ -40,8 +40,8 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 Add whatever helps you do your job. This is your cheat sheet.
 
 ## Twilio（語音通話）
-- Account SID: AC8132cdc05553c33b93087cd44d4e82b7
-- Auth Token: 221bc68efe961a1c707d77887c9f2578
+- Account SID: XXXX
+- Auth Token: XXXXX
 - 電話號碼: +14783755823
 - 語音語言: zh-TW
 - TTS 引擎: google
