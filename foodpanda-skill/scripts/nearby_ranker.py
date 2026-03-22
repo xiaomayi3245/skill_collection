@@ -16,7 +16,15 @@ def norm(value, min_v, max_v):
     return (value - min_v) / (max_v - min_v)
 
 
-def score_candidates(candidates):
+def score_candidates(candidates, weights=None):
+    if weights is None:
+        weights = {}
+        
+    w_r = weights.get("rating", 0.40)
+    w_v = weights.get("reviews", 0.30)
+    w_d = weights.get("distance", 0.20)
+    w_o = weights.get("open", 0.10)
+    
     ratings = [c.get("rating", 0) for c in candidates]
     reviews = [c.get("reviews", 0) for c in candidates]
     dists = [c.get("distance_km", 99) for c in candidates]
@@ -32,7 +40,7 @@ def score_candidates(candidates):
         d = 1 - norm(c.get("distance_km", 99), d_min, d_max)  # closer is better
         o = 1.0 if c.get("open", False) else 0.0
 
-        total = r * 0.40 + v * 0.30 + d * 0.20 + o * 0.10
+        total = r * w_r + v * w_v + d * w_d + o * w_o
 
         # Normalize output schema so the UI/assistant can always show key fields
         row = {
@@ -76,12 +84,15 @@ def main():
         print(json.dumps({"error": "no candidates"}, ensure_ascii=False))
         sys.exit(1)
 
-    ranked = score_candidates(candidates)
+    weights = payload.get("weights", None)
+    ranked = score_candidates(candidates, weights)
+    
     result = {
         "location": payload.get("location"),
         "cuisine": payload.get("cuisine"),
         "budget_per_person": payload.get("budget_per_person"),
         "people": payload.get("people", 1),
+        "applied_weights": weights if weights else {"rating": 0.40, "reviews": 0.30, "distance": 0.20, "open": 0.10},
         "ranked": ranked,
     }
     print(json.dumps(result, ensure_ascii=False, indent=2))
