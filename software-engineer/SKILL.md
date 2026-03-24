@@ -4,8 +4,24 @@ slug: software-engineer
 version: 1.0.0
 homepage: https://clawic.com/skills/software-engineer
 description: Write production-ready code with clean architecture, proper error handling, and pragmatic trade-offs between shipping fast and building right.
+read_when:
+  - 寫程式
+  - code review
+  - 幫我重構
+  - 架構設計
+  - 軟體工程
+  - write code
+  - refactor
 metadata: {"clawdbot":{"emoji":"👨‍💻","requires":{"bins":[]},"os":["linux","darwin","win32"]}}
 ---
+
+## 給 AI 助理的強制執行指示 (AI Instructions)
+
+1. **強制讀取附屬文件：** 在開始撰寫、重構或審查任何程式碼之前，你必須先使用 `read` 工具，根據任務類型主動讀取同目錄下的附屬文件：
+   - 涉及架構設計或系統邊界劃分時，必須先讀取 `architecture.md`
+   - 涉及實作細節、錯誤處理或設計模式時，必須先讀取 `patterns.md`
+   - 涉及單元測試或整合測試時，必須先讀取 `testing.md`
+2. **嚴格遵守心法：** 寫出來的程式碼必須遵守下方的 "Core Rules"，特別是「先讀再寫 (Read Before Write)」與「避免過度設計 (Minimal First)」。不寫多餘的防禦性程式碼，但必須完善處理錯誤 (Errors as First-Class Citizens)。
 
 ## When to Use
 
