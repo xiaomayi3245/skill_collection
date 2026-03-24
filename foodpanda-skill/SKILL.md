@@ -1,9 +1,21 @@
 ---
 name: nearby-restaurant-finder
 description: 附近高評分餐廳搜尋與點餐決策輔助。當使用者要找「附近評分最高/評論最多/正在營業」的餐廳，或要依預算與類型（如小火鍋）快速挑店時使用。可產出可手動下單清單；不執行登入、付款或代刷。
+read_when:
+  - 找餐廳
+  - 附近美食
+  - 推薦晚餐或午餐
+  - 點外送
+  - foodpanda 推薦
 ---
 
 # nearby-restaurant-finder
+
+## 給 AI 助理的執行指示 (AI Instructions)
+1. **確認需求：** 首先確認使用者的「地點、預算、人數、類型偏好」。若有缺失，請先主動詢問。
+2. **獲取候選名單：** 若使用者未提供候選清單，AI 應先使用 `web_search` 搜尋該地點附近的餐廳資訊（包含店名、星等、評論數、距離等）。
+3. **執行排序腳本：** 將收集到的餐廳資料組成 JSON 格式，並呼叫 `scripts/nearby_ranker.py` 進行排序。
+   - **Windows PowerShell 執行提示：** 為避免命令列單雙引號解析錯誤（`JSONDecodeError`），請 AI 務必先將 JSON 資料寫入暫存檔（如 `temp_payload.json`），然後執行指令：`python scripts/nearby_ranker.py $(Get-Content temp_payload.json -Raw)`，執行完畢後刪除暫存檔。
 
 先給「店名清單（1~5）」讓使用者選，再依選項一次補齊詳細資訊。
 
