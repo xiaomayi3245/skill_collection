@@ -1,6 +1,15 @@
 ---
 name: proactive-agent
 description: "Transform AI agents from task-followers into proactive partners that anticipate needs and continuously improve. Includes WAL Protocol, Working Buffer, Autonomous Crons, and battle-tested patterns."
+read_when:
+  - Make the agent more proactive
+  - Automate routine checks
+  - Implement memory persistence
+  - Schedule automated tasks
+  - Build self-improving agents
+  - 讓 AI 變得更主動
+  - 建立記憶系統
+  - 自動化日常任務
 homepage: https://lobehub.com/skills/openclaw-skills-proactive-agent
 metadata: { "openclaw": { "emoji": "🚀", "requires": { "bins": [] } } }
 ---
@@ -9,15 +18,12 @@ metadata: { "openclaw": { "emoji": "🚀", "requires": { "bins": [] } } }
 
 Transform AI agents from task-followers into proactive partners that anticipate needs and continuously improve.
 
-## When to Use
+## AI Instructions (給 AI 助理的執行指示)
 
-✅ **USE this skill when:**
-
-- "Make the agent more proactive"
-- "Automate routine checks"
-- "Implement memory persistence"
-- "Schedule automated tasks"
-- "Build self-improving agents"
+When requested to implement this proactive architecture, the AI MUST take actual actions instead of just talking:
+1. **Create Memory Files**: Use the `write` tool to initialize `SESSION-STATE.md`, `working-buffer.md`, and `HEARTBEAT.md` in the workspace root based on the templates below.
+2. **Apply WAL Protocol**: Actively record critical context, steps, and decisions into `SESSION-STATE.md` or `working-buffer.md` during complex, long-running tasks.
+3. **Manage Crons**: DO NOT output Linux bash `crontab` commands. Use the built-in OpenClaw `cron` tool (`action="add"`) to schedule automated tasks with `payload.kind="systemEvent"` and `sessionTarget="main"`.
 
 ## Core Architecture
 
@@ -52,9 +58,8 @@ workspace/
 
 ### WAL Protocol Workflow
 1. **Capture**: Log all critical exchanges to working buffer
-2. **Compact**: Periodically review and extract key insights
-3. **Curate**: Move important information to MEMORY.md
-4. **Recover**: Restore state from logs after restart
+2. **Curate**: Move important information to MEMORY.md
+3. **Recover**: Restore state from logs after restart
 
 ### Proactive Behaviors
 
@@ -68,47 +73,13 @@ workspace/
 ```
 
 #### 2. Autonomous Crons
-```bash
-# Daily maintenance
-- Memory compaction and cleanup
-- File organization
-- Backup verification
-
-# Weekly tasks
-- Skill updates check
-- Documentation review
-- Performance optimization
-```
+- Daily maintenance: Memory compaction and cleanup
+- Weekly tasks: Documentation review, Performance optimization
 
 #### 3. Context-Aware Automation
 - Detect patterns in user requests
 - Anticipate follow-up needs
 - Suggest relevant actions
-
-## Configuration
-
-### Basic Setup
-1. Create memory directory structure
-2. Set up SESSION-STATE.md template
-3. Configure heartbeat intervals
-4. Define autonomous cron schedules
-
-### Advanced Configuration
-```json
-{
-  "proactive": {
-    "heartbeatInterval": 1800,
-    "autonomousCrons": {
-      "daily": ["08:00", "20:00"],
-      "weekly": ["Monday 09:00"]
-    },
-    "memory": {
-      "compactionThreshold": 1000,
-      "retentionDays": 30
-    }
-  }
-}
-```
 
 ## Usage Examples
 
@@ -130,77 +101,36 @@ workspace/
 ```
 
 ### 2. Setting Up Heartbeats
-```bash
+```markdown
 # HEARTBEAT.md Template
-# Check every 30 minutes
-
-## Email Checks
-- Check for urgent unread messages
-- Flag important notifications
-
-## Calendar Checks
-- Upcoming events in next 2 hours
-- Daily schedule overview
 
 ## System Checks
-- OpenClaw gateway status
-- Skill availability
-- Memory usage
+- Read working-buffer.md to see if compaction is needed
+- Check if MEMORY.md requires curation
+- Check daily logs
 ```
 
-### 3. Creating Autonomous Crons
-```bash
-# Create cron job for daily maintenance
-0 8 * * * openclaw run --task "daily-maintenance"
-0 20 * * * openclaw run --task "evening-review"
-
-# Weekly optimization
-0 9 * * 1 openclaw run --task "weekly-optimization"
+### 3. Creating Autonomous Crons (OpenClaw Built-in)
+To schedule crons, the AI must use the built-in `cron` tool with `action="add"`. Example payload for a daily 8:00 AM maintenance task:
+```json
+{
+  "action": "add",
+  "job": {
+    "name": "daily-maintenance",
+    "schedule": { "kind": "cron", "expr": "0 8 * * *" },
+    "sessionTarget": "main",
+    "payload": {
+      "kind": "systemEvent",
+      "text": "Time for daily maintenance! Please review and compact the working buffer."
+    }
+  }
+}
 ```
 
 ## Best Practices
-
-### 1. Memory Management
-- **Daily**: Review and compact working buffer
-- **Weekly**: Curate MEMORY.md from daily logs
-- **Monthly**: Archive and cleanup old files
-
-### 2. Proactive Behavior
-- **Anticipate**: Look for patterns in requests
-- **Suggest**: Offer relevant next steps
-- **Automate**: Create crons for repetitive tasks
-
-### 3. Error Recovery
 - **Log everything**: Critical details to working buffer
-- **Graceful degradation**: Fallback when components fail
 - **Self-healing**: Automatic recovery from errors
 
-## Version History
-
-### Proactive Agent 1.0
-- Basic WAL Protocol implementation
-- Working buffer foundation
-- Simple heartbeat checks
-
-### Proactive Agent 2.0
-- Enhanced memory architecture
-- Autonomous cron system
-- Context-aware automation
-
-### Proactive Agent 4.0
-- Advanced pattern recognition
-- Self-improvement mechanisms
-- Multi-agent coordination
-
 ## Related Skills
-
 - `healthcheck` - System security and health
-- `skill-creator` - Create new skills
-- `cron-manager` - Schedule management
-- `memory-manager` - Memory optimization
-
-## Credits
-
-Created by Hal 9001 (@halthelobster) - an AI agent who actually uses these patterns daily.
-
-Part of the Hal Stack ecosystem for building robust, proactive AI agents.
+- `cron` - OpenClaw built-in cron manager
