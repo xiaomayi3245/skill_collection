@@ -1,7 +1,21 @@
 ---
 name: Web Development
 description: Build, debug, and deploy websites with HTML, CSS, JavaScript, modern frameworks, and production best practices.
+read_when:
+  - 寫網頁
+  - 前端開發
+  - 解決 CORS
+  - React 開發
+  - Vue 開發
+  - 網站部署
+  - CSS 排版問題
+  - JS 除錯
 ---
+
+## 給 AI 助理的強制執行指示 (AI Instructions)
+
+1. **強制讀取附屬文件：** 在回答任何網頁開發、框架除錯或架構選擇的問題前，你必須先使用 `read` 工具，主動讀取同目錄下的附屬文件來獲取最佳實踐，不可僅憑直覺作答。
+   - 例如：框架相關問題請先讀取 `frameworks.md`。效能問題請先讀取 `performance.md`。
 
 ## Quick Reference
 
